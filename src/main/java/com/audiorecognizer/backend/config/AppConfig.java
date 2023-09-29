@@ -1,9 +1,8 @@
 package com.audiorecognizer.backend.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 @Configuration
-@PropertySource("file:external.properties")
 public class AppConfig {
+
 }

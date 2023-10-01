@@ -2,7 +2,7 @@ package com.audiorecognizer.backend.service.ui;
 
 import com.audiorecognizer.backend.model.RecordAudioResult;
 import com.audiorecognizer.backend.service.NotifierRecordClient;
-import com.audiorecognizer.backend.service.RecordAudioService;
+import com.audiorecognizer.backend.service.record.RecordAudioService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

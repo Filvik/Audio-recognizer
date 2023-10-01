@@ -2,8 +2,8 @@ package com.audiorecognizer.backend.service.ui;
 
 
 import com.audiorecognizer.backend.form.FormUI;
-import com.audiorecognizer.backend.service.RecordAudioResultNotificator;
-import com.audiorecognizer.backend.service.RecordAudioService;
+import com.audiorecognizer.backend.service.record.RecordAudioResultNotificator;
+import com.audiorecognizer.backend.service.record.RecordAudioService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 

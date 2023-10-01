@@ -1,6 +1,7 @@
-package com.audiorecognizer.backend.service;
+package com.audiorecognizer.backend.service.record;
 
 import com.audiorecognizer.backend.model.RecordAudioResult;
+import com.audiorecognizer.backend.service.NotifierRecordClient;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

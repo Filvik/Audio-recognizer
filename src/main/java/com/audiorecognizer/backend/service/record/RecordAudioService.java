@@ -1,8 +1,7 @@
-package com.audiorecognizer.backend.service;
+package com.audiorecognizer.backend.service.record;
 
 import com.audiorecognizer.backend.config.RecordAudioProperty;
 import com.audiorecognizer.backend.model.RecordAudioResult;
-import com.audiorecognizer.backend.service.record.RecordAudioSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;

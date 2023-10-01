@@ -1,2 +1,13 @@
 application:
-  ui-visible: false
+  ui-visible: true
+
+setting-record:
+  MONO: 1
+  audioFormat: PCM_SIGNED
+  sampleRate: 44100
+  sampleSizeInBits: 16
+  frameSize: 2
+  frameRate: 44100
+  bigEndian: true
+  fileTypeFormat: WAVE
+  fileName: audio/audio_

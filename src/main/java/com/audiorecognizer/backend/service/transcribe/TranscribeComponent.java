@@ -47,7 +47,7 @@ public class TranscribeComponent {
 
         // Загружаем объект
         PutObjectResult putObjectResult = amazonS3.putObject(yandexCloudSettings.getStorage().bucketName(), objectKey, taskTranscribe.getFile());
-        return putObjectResult.getETag().isEmpty();
+        return !putObjectResult.getETag().isEmpty();
     }
 
     /**

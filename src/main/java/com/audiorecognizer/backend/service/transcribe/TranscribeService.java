@@ -50,12 +50,12 @@ public class TranscribeService {
      */
     public void downloadAudioOnBucket(TaskTranscribe taskTranscribe) {
         if (transcribeComponent.uploadFile(taskTranscribe, amazonS3)){
-            taskTranscribe.setTaskConditionEnum(TaskConditionEnum.SEND_TRANSCRIBE_ERROR);
-            recordAudioResultNotificator.sendRecordAudioResult(taskTranscribe);
-        }
-        else {
             transcribeComponent.generateLinkS3(taskTranscribe, amazonS3);
             transcribeComponent.getTranscribeRequest(taskTranscribe, url);
+        }
+        else {
+            taskTranscribe.setTaskConditionEnum(TaskConditionEnum.SEND_TRANSCRIBE_ERROR);
+            recordAudioResultNotificator.sendRecordAudioResult(taskTranscribe);
         }
     }
 

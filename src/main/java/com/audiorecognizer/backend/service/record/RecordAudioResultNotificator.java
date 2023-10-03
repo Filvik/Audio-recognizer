@@ -1,6 +1,6 @@
 package com.audiorecognizer.backend.service.record;
 
-import com.audiorecognizer.backend.model.RecordAudioResult;
+import com.audiorecognizer.backend.model.TaskTranscribe;
 import com.audiorecognizer.backend.service.NotifierRecordClient;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ public class RecordAudioResultNotificator {
         clients.add(client);
     }
 
-    public void sendRecordAudioResult(RecordAudioResult recordAudioResult){
-        clients.forEach(s -> s.getRecordResult(recordAudioResult));
+    public void sendRecordAudioResult(TaskTranscribe taskTranscribe){
+        clients.forEach(s -> s.getRecordResult(taskTranscribe));
     }
 }

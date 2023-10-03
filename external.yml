@@ -11,3 +11,25 @@ setting-record:
   bigEndian: true
   fileTypeFormat: WAVE
   fileName: audio/audio_
+
+yandex-cloud-setting:
+  key:
+    apiKey: Api-Key AQVNw92WwWbBNVPeZWothPbilMrKAwF7kZwQhi93
+    accessKeyId: YCAJEfHuBH1mzNojWw8WXzaLF
+    secretAccessKey: YCOw4sGCC6xZN6PiavuH9eESCLPxNhy7Q-1x78Yu
+  transcribe:
+    authorization: Authorization
+    urlTranscriber: "https://transcribe.api.cloud.yandex.net/speech/stt/v2/longRunningRecognize"
+    urlOperation: "https://operation.api.cloud.yandex.net/operations/"
+  specification:
+    languageCode: ru-RU
+    model: general
+    profanityFilter: false
+    literatureText: true
+    audioEncoding: LINEAR16_PCM
+    sampleRateHertz: 48000
+    audioChannelCount: 1
+  storage:
+    bucketName: audiobacket2023
+    endPoint: storage.yandexcloud.net
+    region: ru-central1

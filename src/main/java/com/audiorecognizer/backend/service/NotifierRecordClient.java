@@ -1,7 +1,7 @@
 package com.audiorecognizer.backend.service;
 
-import com.audiorecognizer.backend.model.RecordAudioResult;
+import com.audiorecognizer.backend.model.TaskTranscribe;
 
 public interface NotifierRecordClient {
-    void getRecordResult(RecordAudioResult recordAudioResult);
+    void getRecordResult(TaskTranscribe taskTranscribe);
 }

@@ -1,9 +1,10 @@
-package com.audiorecognizer.backend.service;
+package com.audiorecognizer.backend.service.transcribe;
 
 import com.audiorecognizer.backend.config.YandexCloudSettings;
 import com.audiorecognizer.backend.model.OperationStatusResponse;
 import com.audiorecognizer.backend.model.TaskConditionEnum;
 import com.audiorecognizer.backend.model.TaskTranscribe;
+import com.audiorecognizer.backend.service.GenerateNameService;
 import com.audiorecognizer.backend.service.record.RecordAudioResultNotificator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,15 @@ public class TaskService {
     private final ObjectMapper mapper = new ObjectMapper();
     private final RecordAudioResultNotificator recordAudioResultNotificator;
     private final YandexCloudSettings yandexCloudSettings;
+    private final TranscribeService transcribeService;
 
-    public TaskTranscribe addNewTask(String extension) {
+    public TaskTranscribe addNewTask(String extension, boolean isRecord) {
         TaskTranscribe taskTranscribe = new TaskTranscribe();
         String taskId = generateNameService.getName();
         taskTranscribe.setTaskConditionEnum(TaskConditionEnum.NEW);
         taskTranscribe.setTaskId(taskId);
         taskTranscribe.setExtension(extension);
+        taskTranscribe.setRecord(isRecord);
         tasks.put(taskId, taskTranscribe);
         return taskTranscribe;
     }
@@ -50,6 +53,8 @@ public class TaskService {
                 .peek(entry -> checkResultTask(entry.getValue()))
                 .filter(entry -> entry.getValue().getTaskConditionEnum() == COMPLETED)
                 .forEach(entry -> recordAudioResultNotificator.sendRecordAudioResult(entry.getValue()));
+
+        deleteCompletedTask();
     }
 
     private void checkResultTask(TaskTranscribe taskTranscribe) {
@@ -64,12 +69,10 @@ public class TaskService {
             if (operationStatusResponse.isDone()) {
                 if (operationStatusResponse.getError() != null) {
                     createErrorResponse(taskTranscribe, operationStatusResponse.getError().getMessage());
-                }
-                else if (operationStatusResponse.getStatusResponse().getChunk() == null
+                } else if (operationStatusResponse.getStatusResponse().getChunk() == null
                         || operationStatusResponse.getStatusResponse().getChunk().get(0).getAlternative() == null) {
                     createErrorResponse(taskTranscribe, "Не удалось распознать аудио.");
-                }
-                else {
+                } else {
                     taskTranscribe.setResultMessage(getText(operationStatusResponse));
                     taskTranscribe.setTaskConditionEnum(COMPLETED);
                 }
@@ -81,6 +84,7 @@ public class TaskService {
 
     /**
      * Отправление сообщения на проверку готовности задачи
+     *
      * @param url адрес запроса
      * @return тело ответа
      * @throws IOException в случае проблем со считыванием тела ответа
@@ -109,24 +113,36 @@ public class TaskService {
 
     /**
      * Формирование распознанного текста
+     *
      * @param operationStatusResponse сообщение с ответом
      * @return распознанный текст
      */
-    private String getText(OperationStatusResponse operationStatusResponse){
+    private String getText(OperationStatusResponse operationStatusResponse) {
         StringBuilder stringBuilder = new StringBuilder();
         operationStatusResponse.getStatusResponse().getChunk()
                 .forEach(chunk -> {
                     chunk.getAlternative()
                             .forEach(alternative ->
                                     stringBuilder.append(alternative.getText()));
-                                    stringBuilder.append(" ");
+                    stringBuilder.append(" ");
                 });
         return stringBuilder.toString();
     }
 
-    private void createErrorResponse(TaskTranscribe taskTranscribe, String additionalMessage){
+    private void createErrorResponse(TaskTranscribe taskTranscribe, String additionalMessage) {
         taskTranscribe.setErrorDescription(additionalMessage);
         taskTranscribe.setTaskConditionEnum(TRANSCRIBE_ERROR);
         recordAudioResultNotificator.sendRecordAudioResult(taskTranscribe);
     }
+
+    private void deleteCompletedTask() {
+        tasks.values().stream()
+                .filter(task -> TaskConditionEnum.COMPLETED_TASK.contains(task.getTaskConditionEnum()))
+                .peek(transcribeService::deleteFileFromBucket)
+                .forEach(task -> tasks.remove(task.getTaskId()));
+
+
+    }
+
+
 }

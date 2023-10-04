@@ -4,7 +4,7 @@ import com.audiorecognizer.backend.config.RecordAudioProperty;
 import com.audiorecognizer.backend.model.RecordAudioResult;
 import com.audiorecognizer.backend.model.TaskTranscribe;
 import com.audiorecognizer.backend.service.GenerateNameService;
-import com.audiorecognizer.backend.service.TaskService;
+import com.audiorecognizer.backend.service.transcribe.TaskService;
 import com.audiorecognizer.backend.service.transcribe.TranscribeService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +57,7 @@ public class RecordAudioService {
             return new RecordAudioResult("Идёт запись файла! Не возможно запустить ещё одну запись!");
         }
         flagRecord = true;
-        TaskTranscribe taskTranscribe = taskService.addNewTask(recordAudioProperty.getFileType().getExtension());
+        TaskTranscribe taskTranscribe = taskService.addNewTask(recordAudioProperty.getFileType().getExtension(), true);
         generateNameService.createFileInTaskTranscribe(recordAudioProperty.getFileName(), taskTranscribe);
         try {
             // получить подходящую линию

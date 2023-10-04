@@ -1,5 +1,6 @@
 package com.audiorecognizer.backend.service.transcribe;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 import java.net.*;
-
+import java.nio.file.Files;
 
 
 @Service
@@ -57,6 +58,10 @@ public class TranscribeService {
             taskTranscribe.setTaskConditionEnum(TaskConditionEnum.SEND_TRANSCRIBE_ERROR);
             recordAudioResultNotificator.sendRecordAudioResult(taskTranscribe);
         }
+        // Удаляем файл, если это была запись
+        if (taskTranscribe.isRecord()) {
+            deleteRecord(taskTranscribe);
+        }
     }
 
 
@@ -74,4 +79,27 @@ public class TranscribeService {
                 )
                 .build();
     }
+
+    private void deleteRecord(TaskTranscribe taskTranscribe){
+
+        try {
+            Files.deleteIfExists(taskTranscribe.getFile().toPath());
+        } catch (IOException e) {
+            log.error("Ошибка при удалении файла: {}", taskTranscribe.getFile().toPath());
+        }
+    }
+
+    /**
+     * Удаление файла из бакета
+     * @param taskTranscribe сущность задания на перевод
+     */
+    public void deleteFileFromBucket(TaskTranscribe taskTranscribe){
+        try {
+            amazonS3.deleteObject(yandexCloudSettings.getStorage().bucketName(), taskTranscribe.getFile().getName());
+        } catch (AmazonServiceException e){
+            log.error("Не удалось удалить файл {} из storage", taskTranscribe.getFile().getName());
+        }
+
+    }
+
 }

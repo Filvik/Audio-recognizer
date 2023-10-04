@@ -2,7 +2,7 @@ package com.audiorecognizer.backend.service.ui;
 
 
 import com.audiorecognizer.backend.form.FormUI;
-import com.audiorecognizer.backend.service.TaskService;
+import com.audiorecognizer.backend.service.transcribe.TaskService;
 import com.audiorecognizer.backend.service.record.RecordAudioResultNotificator;
 import com.audiorecognizer.backend.service.record.RecordAudioService;
 import com.audiorecognizer.backend.service.transcribe.TranscribeService;

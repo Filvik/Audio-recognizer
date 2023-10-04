@@ -2,7 +2,7 @@ package com.audiorecognizer.backend.service.ui;
 
 import com.audiorecognizer.backend.form.FormUI;
 import com.audiorecognizer.backend.model.TaskTranscribe;
-import com.audiorecognizer.backend.service.TaskService;
+import com.audiorecognizer.backend.service.transcribe.TaskService;
 import com.audiorecognizer.backend.service.transcribe.TranscribeService;
 import com.google.common.io.Files;
 
@@ -53,7 +53,7 @@ public class OpenFile implements ActionListener {
             jFileChooser.setFileFilter(filter);
             jFileChooser.showOpenDialog(formUI);
             File file = jFileChooser.getSelectedFile();
-            TaskTranscribe taskTranscribe = taskService.addNewTask(Files.getFileExtension(file.getAbsolutePath()));
+            TaskTranscribe taskTranscribe = taskService.addNewTask(Files.getFileExtension(file.getAbsolutePath()), false);
             taskTranscribe.setFile(file);
             transcribeService.downloadAudioOnBucket(taskTranscribe);
         }

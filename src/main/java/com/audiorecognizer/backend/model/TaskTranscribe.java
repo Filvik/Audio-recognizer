@@ -15,5 +15,6 @@ public class TaskTranscribe {
     private LongRunningRecognizeResponse longRunningRecognizeResponse;
     private String errorDescription;
     private String resultMessage;
+    private boolean isRecord;
 
 }

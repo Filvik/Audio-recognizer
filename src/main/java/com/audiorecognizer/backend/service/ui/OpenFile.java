@@ -12,9 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import static com.audiorecognizer.backend.form.FormUI.BUTTON_NAME_LOADING;
+import static com.audiorecognizer.backend.service.ui.RecordAudioEvenListener.TEXT_IN_CONSUL_WAIT;
+
 public class OpenFile implements ActionListener {
 
     private final JButton loadingButton;
+    private final JButton startRecord;
     private final FormUI formUI;
     private final Mp3Filter filter = new Mp3Filter();
     private final TranscribeService transcribeService;
@@ -39,8 +43,9 @@ public class OpenFile implements ActionListener {
         }
     }
 
-    public OpenFile(JButton loadingButton, FormUI formUI, TranscribeService transcribeService, TaskService taskService) {
+    public OpenFile(JButton loadingButton, JButton startRecord, FormUI formUI, TranscribeService transcribeService, TaskService taskService) {
         this.loadingButton = loadingButton;
+        this.startRecord = startRecord;
         this.formUI = formUI;
         this.transcribeService = transcribeService;
         this.taskService = taskService;
@@ -49,14 +54,23 @@ public class OpenFile implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (loadingButton.isDefaultCapable()) {
+            startRecord.setEnabled(false);
+            loadingButton.setEnabled(false);
+            loadingButton.setText(TEXT_IN_CONSUL_WAIT);
             JFileChooser jFileChooser = new JFileChooser();
             jFileChooser.setFileFilter(filter);
             jFileChooser.showOpenDialog(formUI);
             File file = jFileChooser.getSelectedFile();
-            TaskTranscribe taskTranscribe = taskService.addNewTask(Files.getFileExtension(file.getAbsolutePath()), false);
-            taskTranscribe.setFile(file);
-            transcribeService.downloadAudioOnBucket(taskTranscribe);
+            if(file != null){
+                TaskTranscribe taskTranscribe = taskService.addNewTask(Files.getFileExtension(file.getAbsolutePath()), false);
+                taskTranscribe.setFile(file);
+                transcribeService.downloadAudioOnBucket(taskTranscribe);
+            }
+            else {
+                startRecord.setEnabled(true);
+                loadingButton.setEnabled(true);
+                loadingButton.setText(BUTTON_NAME_LOADING);
+            }
         }
     }
-
 }

@@ -3,11 +3,12 @@ package com.audiorecognizer.backend.form;
 import java.awt.*;
 
 import javax.swing.*;
+
 public class FormUI extends JFrame {
 
     public final static String BUTTON_NAME_START = "Start";
-    public final static String BUTTON_NAME_STOP= "Stop";
-    public final static String BUTTON_NAME_LOADING= "Open";
+    public final static String BUTTON_NAME_STOP = "Stop";
+    public final static String BUTTON_NAME_LOADING = "Open";
     public final static String TEXT_IN_CONSUL = "Терминал готов к работе!";
     public final static String TEXT_IN_CONSUL_FOR_RESPONSE = "Здесь будет ответ!";
 
@@ -17,8 +18,7 @@ public class FormUI extends JFrame {
 
     private final JLabel labelInfo = new JLabel(TEXT_IN_CONSUL, SwingConstants.CENTER);
 
-    private final JLabel labelForResponse = new JLabel(TEXT_IN_CONSUL_FOR_RESPONSE, SwingConstants.CENTER);
-
+    private final JTextArea jTextAreaForResponse = new JTextArea(TEXT_IN_CONSUL_FOR_RESPONSE, 10, 10);
 
     public FormUI() {
         super("Form for record");
@@ -32,22 +32,28 @@ public class FormUI extends JFrame {
         jPanel1.add(loadingButton);
         jPanel.add(jPanel1);
         jPanel.add(labelInfo);
-        jPanel.add(labelForResponse);
+        jPanel.add(jTextAreaForResponse);
         container.add(jPanel);
         labelInfo.setOpaque(true);
         labelInfo.setBackground(Color.WHITE);
         labelInfo.setForeground(Color.BLACK);
+        jTextAreaForResponse.setWrapStyleWord(true);
+        jTextAreaForResponse.setEditable(false);
+        jTextAreaForResponse.setLineWrap(true);
     }
 
     public JButton getStartRecordButton() {
         return startRecordButton;
     }
+
     public JLabel getLabelInfo() {
         return labelInfo;
     }
-    public JLabel getLabelForResponse() {
-        return labelForResponse;
+
+    public JTextArea getjTextAreaForResponse() {
+        return jTextAreaForResponse;
     }
+
     public JButton getLoadingButton() {
         return loadingButton;
     }

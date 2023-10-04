@@ -24,9 +24,12 @@ public class UiService {
         this.taskService = taskService;
         System.setProperty("java.awt.headless", "false");
         formUI = new FormUI();
-        RecordAudioEvenListener recordAudioEvenListener = new RecordAudioEvenListener(formUI.getStartRecordButton(),
-                recordAudioService, formUI.getLabelInfo(), formUI.getLabelForResponse());
-        OpenFile openFile = new OpenFile(formUI.getLoadingButton(), formUI, this.transcribeService, this.taskService);
+        RecordAudioEvenListener recordAudioEvenListener = new RecordAudioEvenListener(
+                formUI.getStartRecordButton(),
+                recordAudioService, formUI.getLabelInfo(),
+                formUI.getjTextAreaForResponse(),
+                formUI.getLoadingButton());
+        OpenFile openFile = new OpenFile(formUI.getLoadingButton(), formUI.getStartRecordButton(), formUI, this.transcribeService, this.taskService);
         // подписываемся на события нажатия кнопки
         formUI.getStartRecordButton().addActionListener(recordAudioEvenListener);
         formUI.getLoadingButton().addActionListener(openFile);

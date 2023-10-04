@@ -15,16 +15,18 @@ class RecordAudioEvenListener implements ActionListener, NotifierRecordClient {
     private final JButton startRecord;
     private final RecordAudioService recordAudioService;
     private final JLabel label;
-    private final JLabel labelForResponse;
+    private final JTextArea labelForResponse;
+    private final JButton loadingButton;
     public final static String TEXT_IN_CONSUL_STOP = "Идёт запись! Нажмите, чтобы остановить!";
     public final static String TEXT_IN_CONSUL_START = "Нажмите, чтобы начать запись!";
     public final static String TEXT_IN_CONSUL_WAIT = "Ожидание ответа!";
 
-    RecordAudioEvenListener(JButton startRecord, RecordAudioService recordAudioService, JLabel label, JLabel labelForResponse) {
+    RecordAudioEvenListener(JButton startRecord, RecordAudioService recordAudioService, JLabel label, JTextArea labelForResponse, JButton loadingButton) {
         this.startRecord = startRecord;
         this.recordAudioService = recordAudioService;
         this.label = label;
         this.labelForResponse = labelForResponse;
+        this.loadingButton = loadingButton;
     }
 
     @Override
@@ -53,6 +55,9 @@ class RecordAudioEvenListener implements ActionListener, NotifierRecordClient {
                 startValue();
                 label.setForeground(Color.RED);
                 label.setText(getErrorText(taskTranscribe));
+                startRecord.setEnabled(true);
+                loadingButton.setEnabled(true);
+                loadingButton.setText(BUTTON_NAME_LOADING);
                 break;
             }
             case CLOUD_SENDING -> {
@@ -68,8 +73,11 @@ class RecordAudioEvenListener implements ActionListener, NotifierRecordClient {
                 label.setText(TEXT_IN_CONSUL_START);
                 startRecord.setToolTipText(TEXT_IN_CONSUL_START);
                 startRecord.setEnabled(true);
+                loadingButton.setEnabled(true);
+                startRecord.setEnabled(true);
+                loadingButton.setEnabled(true);
+                loadingButton.setText(BUTTON_NAME_LOADING);
             }
-
         }
     }
 
@@ -81,6 +89,7 @@ class RecordAudioEvenListener implements ActionListener, NotifierRecordClient {
 
     private void clickStart() {
         if (recordAudioService.startRecording().isStatus()) {
+            loadingButton.setEnabled(false);
             startRecord.setText(BUTTON_NAME_STOP);
             label.setForeground(Color.BLACK);
             label.setText(TEXT_IN_CONSUL_STOP);
@@ -95,10 +104,6 @@ class RecordAudioEvenListener implements ActionListener, NotifierRecordClient {
         recordAudioService.stopRecording();
         startRecord.setEnabled(false);
         startRecord.setText(TEXT_IN_CONSUL_WAIT);
-//        startRecord.setText(BUTTON_NAME_START);
-//        label.setForeground(Color.BLACK);
-//        label.setText(TEXT_IN_CONSUL_START);
-//        startRecord.setToolTipText(TEXT_IN_CONSUL_START);
     }
 
     private String getErrorText(TaskTranscribe taskTranscribe){

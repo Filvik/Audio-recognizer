@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 
 import java.net.*;
@@ -99,7 +98,5 @@ public class TranscribeService {
         } catch (AmazonServiceException e){
             log.error("Не удалось удалить файл {} из storage", taskTranscribe.getFile().getName());
         }
-
     }
-
 }

@@ -124,7 +124,7 @@ public class TaskService {
                     chunk.getAlternative()
                             .forEach(alternative ->
                                     stringBuilder.append(alternative.getText()));
-                    stringBuilder.append(" ");
+                    stringBuilder.append(" \n");
                 });
         return stringBuilder.toString();
     }

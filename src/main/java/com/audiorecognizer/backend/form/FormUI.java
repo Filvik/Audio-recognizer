@@ -18,7 +18,7 @@ public class FormUI extends JFrame {
 
     private final JLabel labelInfo = new JLabel(TEXT_IN_CONSUL, SwingConstants.CENTER);
 
-    private final JTextArea jTextAreaForResponse = new JTextArea(TEXT_IN_CONSUL_FOR_RESPONSE, 10, 10);
+    private final JTextArea jTextAreaForResponse = new JTextArea(TEXT_IN_CONSUL_FOR_RESPONSE);
 
     public FormUI() {
         super("Form for record");

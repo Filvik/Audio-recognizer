@@ -119,6 +119,7 @@ public class TaskService {
     private String getText(OperationStatusResponse operationStatusResponse) {
         StringBuilder stringBuilder = new StringBuilder();
         operationStatusResponse.getStatusResponse().getChunk()
+                .stream().filter(t -> t.getChannelTag().equals("1"))
                 .forEach(chunk -> {
                     chunk.getAlternative()
                             .forEach(alternative ->

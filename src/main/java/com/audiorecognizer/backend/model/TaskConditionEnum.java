@@ -12,6 +12,7 @@ public enum TaskConditionEnum {
     CLOUD_UPLOAD("Аудио загружено в storage"),
     TRANSCRIBE_SENDING("Аудио отправлено на распознавание"),
     SEND_TRANSCRIBE_ERROR("Ошибка при отправке аудио на распознавание"),
+    FORMAT_ERROR("Ошибка выбора формата аудио"),
     TRANSCRIBE_ERROR("Ошибка при распознавание аудио"),
     COMPLETED("Распознавание завершено");
 
@@ -22,6 +23,7 @@ public enum TaskConditionEnum {
         add(SEND_TRANSCRIBE_ERROR);
         add(TRANSCRIBE_ERROR);
         add(COMPLETED);
+        add(FORMAT_ERROR);
     }};
 
     TaskConditionEnum(String description) {

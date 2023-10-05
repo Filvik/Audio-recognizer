@@ -7,7 +7,7 @@ import java.net.URL;
 
 @Data
 public class TaskTranscribe {
-    String taskId;
+    private String taskId;
     private File file;
     private TaskConditionEnum taskConditionEnum;
     private String extension;
@@ -17,4 +17,13 @@ public class TaskTranscribe {
     private String resultMessage;
     private boolean isRecord;
 
+    public String getAudioEncoding(){
+        if (extension.equals("mp3")) {
+            return "MP3";
+        } else if (extension.equals("wav")) {
+            return "LINEAR16_PCM";
+        } else {
+            throw new RuntimeException("Неподдерживаемый формат аудио!");
+        }
+    }
 }

@@ -26,9 +26,8 @@ yandex-cloud-setting:
     model: general
     profanityFilter: false
     literatureText: true
-    audioEncoding: LINEAR16_PCM
     sampleRateHertz: 48000
-    audioChannelCount: 1
+    audioChannelCount: 2
   storage:
     bucketName: audiobacket2023
     endPoint: storage.yandexcloud.net

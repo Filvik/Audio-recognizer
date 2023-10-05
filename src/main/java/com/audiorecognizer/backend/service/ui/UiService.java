@@ -29,7 +29,7 @@ public class UiService {
                 recordAudioService, formUI.getLabelInfo(),
                 formUI.getjTextAreaForResponse(),
                 formUI.getLoadingButton());
-        OpenFile openFile = new OpenFile(formUI.getLoadingButton(), formUI.getStartRecordButton(), formUI, this.transcribeService, this.taskService);
+        OpenFile openFile = new OpenFile(formUI.getLoadingButton(), formUI.getStartRecordButton(), formUI, this.transcribeService, this.taskService, formUI.getLabelInfo());
         // подписываемся на события нажатия кнопки
         formUI.getStartRecordButton().addActionListener(recordAudioEvenListener);
         formUI.getLoadingButton().addActionListener(openFile);

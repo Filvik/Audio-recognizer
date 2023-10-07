@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,7 +46,7 @@ public class TaskService {
         return taskTranscribe;
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 1000)
     public void checkResult() {
         tasks.entrySet().stream()
                 .filter(entry -> entry.getValue().getTaskConditionEnum() == TRANSCRIBE_SENDING)
@@ -138,9 +139,17 @@ public class TaskService {
     private void deleteCompletedTask() {
         tasks.values().stream()
                 .filter(task -> TaskConditionEnum.COMPLETED_TASK.contains(task.getTaskConditionEnum()))
+                .filter(check -> !check.isSourceApi())
                 .peek(transcribeService::deleteFileFromBucket)
                 .forEach(task -> tasks.remove(task.getTaskId()));
+    }
 
-
+    public TaskTranscribe getResponse(String id) {
+        if(tasks.containsKey(id)){
+            return tasks.get(id);
+        }
+       else {
+           throw new RuntimeException();
+        }
     }
 }

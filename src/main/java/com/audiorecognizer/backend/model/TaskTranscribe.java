@@ -16,6 +16,8 @@ public class TaskTranscribe {
     private String errorDescription;
     private String resultMessage;
     private boolean isRecord;
+    private boolean sourceApi;
+
 
     public String getAudioEncoding(){
         if (extension.equals("mp3")) {
